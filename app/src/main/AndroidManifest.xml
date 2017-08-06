@@ -25,6 +25,26 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.example.mateus.jera"/>
 
+        <activity
+            android:name=".list_books.BookListActivity"
+            android:label="@string/title_activity_book_list"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".register_book.BookRegisterActivity"
+            android:label="@string/title_activity_book"
+            android:parentActivityName=".list_books.BookListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mateus.jera.list_books.BookListActivity"/>
+        </activity>
     </application>
 
 </manifest>

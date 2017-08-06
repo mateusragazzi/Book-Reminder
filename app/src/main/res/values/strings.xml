@@ -12,4 +12,5 @@
     <string name="save">Salvar</string>
     <string name="newBook">Novo Livro</string>
     <string name="pages"> %d páginas</string>
+    <string name="reminder">Lembrete</string>
 </resources>
