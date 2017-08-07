@@ -41,11 +41,13 @@ public class BookRegisterActivity extends AppCompatActivity implements View {
     @Override
     public void showSuccess(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
     public void showError(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

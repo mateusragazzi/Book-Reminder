@@ -15,6 +15,6 @@ interface BookRegisterContract {
 
     interface Presenter extends BaseContract.Presenter {
         void insertBook(String title, int pages);
-        void deleteBook(Book book);
+
     }
 }

@@ -8,7 +8,6 @@ import com.orm.SugarRecord;
 
 public class Book extends SugarRecord<Book> {
 
-    private long mId;
     private String title;
     private int pages;
     private boolean reminderEnabled;
@@ -16,15 +15,10 @@ public class Book extends SugarRecord<Book> {
     public Book() {
     }
 
-    public Book(long ID, String title, int pages) {
-        mId = ID;
+    public Book(String title, int pages) {
         this.title = title;
         this.pages = pages;
         reminderEnabled = false;
-    }
-
-    public long getmId() {
-        return mId;
     }
 
     public String getTitle() {

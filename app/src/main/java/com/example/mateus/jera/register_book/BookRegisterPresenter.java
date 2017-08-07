@@ -18,17 +18,20 @@ class BookRegisterPresenter implements Presenter {
 
     @Override
     public void insertBook(String title, int pages) {
-        try {
-            Book book = new Book(0, title, pages);
-            book.save();
-            mView.logSuccess();
-        } catch (Exception e) {
-            mView.logError(e);
+        if (isBookValid(title, pages)) {
+            try {
+                Book book = new Book(title, pages);
+                book.save();
+                mView.logSuccess();
+                mView.showSuccess("Yeah, the book has been inserted!");
+            } catch (Exception e) {
+                mView.logError(e);
+                mView.showError("Oh no, we failed!");
+            }
         }
     }
 
-    @Override
-    public void deleteBook(Book book) {
-
+    private boolean isBookValid(String title, int pages) {
+        return title.length() > 2 && pages > 5;
     }
 }

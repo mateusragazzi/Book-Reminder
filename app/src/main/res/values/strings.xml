@@ -13,4 +13,8 @@
     <string name="newBook">Novo Livro</string>
     <string name="pages"> %d páginas</string>
     <string name="reminder">Lembrete</string>
+    <string name="warning_delete_message">Do you really want delete this book?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">No</string>
+    <string name="warning_title">Hey, be careful</string>
 </resources>

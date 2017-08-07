@@ -54,5 +54,6 @@
         android:layout_below="@+id/book_pages"
         android:background="@color/colorPrimaryDark"
         android:text="@string/save"
+        android:textColor="@color/white"
         android:textStyle="normal|bold"/>
 </RelativeLayout>
