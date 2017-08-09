@@ -7,7 +7,7 @@ import com.example.mateus.jera.helpers.Book;
  * Created by mateus on 04/08/17.
  */
 
-interface BookRegisterContract {
+public interface BookRegisterContract {
 
     interface View extends BaseContract.View {
 
@@ -15,6 +15,5 @@ interface BookRegisterContract {
 
     interface Presenter extends BaseContract.Presenter {
         void insertBook(String title, int pages);
-
     }
 }

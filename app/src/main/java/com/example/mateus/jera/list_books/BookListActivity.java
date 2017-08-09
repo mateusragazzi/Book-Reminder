@@ -29,7 +29,7 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
     @BindView(R.id.main_list)
     RecyclerView mMainList;
 
-    private static final String TAG = "BookActivityError";
+    private static final String TAG = "BookListActivity";
     private Presenter mPresenter;
 
     @Override
@@ -83,7 +83,7 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
 
     @Override
     public void logError(Exception e) {
-        Log.i(TAG, "No, it failed! " + e);
+        Log.e(TAG, "No, it failed! " + e);
     }
 
     private void setupList() {

@@ -19,6 +19,6 @@ public interface BookListContract {
         void deleteBook(Book book);
         void confirmDelete(Book bookClicked);
         void callBookRegister(Context context);
-        void setNewReminder(Book bookClicked);
+        void callNewReminder(Context context, Book bookClicked);
     }
 }

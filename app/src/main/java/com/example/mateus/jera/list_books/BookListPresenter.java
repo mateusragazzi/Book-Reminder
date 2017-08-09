@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.example.mateus.jera.helpers.Book;
 import com.example.mateus.jera.register_book.BookRegisterActivity;
+import com.example.mateus.jera.reminder_book.BookReminderActivity;
 
 import java.util.List;
 
@@ -49,8 +50,10 @@ class BookListPresenter implements Presenter {
     }
 
     @Override
-    public void setNewReminder(Book bookClicked) {
-
+    public void callNewReminder(Context context, Book bookClicked) {
+        Intent intent = new Intent(context, BookReminderActivity.class);
+        intent.putExtra("id", bookClicked.getId());
+        context.startActivity(intent);
     }
 
     public List<Book> getBookID(Book book) {

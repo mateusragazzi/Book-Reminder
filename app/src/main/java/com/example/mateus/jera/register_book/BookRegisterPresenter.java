@@ -2,7 +2,8 @@ package com.example.mateus.jera.register_book;
 
 import com.example.mateus.jera.helpers.Book;
 
-import static com.example.mateus.jera.register_book.BookRegisterContract.*;
+import static com.example.mateus.jera.register_book.BookRegisterContract.Presenter;
+import static com.example.mateus.jera.register_book.BookRegisterContract.View;
 
 /**
  * Created by mateus on 05/08/17.
@@ -28,6 +29,8 @@ class BookRegisterPresenter implements Presenter {
                 mView.logError(e);
                 mView.showError("Oh no, we failed!");
             }
+        } else {
+            mView.showError("Oh no, your book isn't valid!");
         }
     }
 

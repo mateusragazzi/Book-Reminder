@@ -1,6 +1,7 @@
 package com.example.mateus.jera.list_books;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,9 +55,12 @@ class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
         holder.mBookReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.setNewReminder(getBookClicked(index));
+                mPresenter.callNewReminder(mContext, getBookClicked(index));
             }
         });
+        if (book.isReminderEnabled()) {
+            holder.mBookReminder.setColorFilter(Color.rgb(37, 140, 0));
+        }
     }
 
     private String getStringRes(int stringRes, Object... formatArgs) {

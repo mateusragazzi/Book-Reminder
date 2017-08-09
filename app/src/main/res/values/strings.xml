@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Jera</string>
-    <string name="title_activity_book">Adicionar Livro</string>
-    <string name="title_activity_book_list">Minha Biblioteca</string>
+    <string name="title_activity_book">Add Book</string>
+    <string name="title_activity_book_list">My Library</string>
+    <string name="title_activity_book_reminder">Add Reminder</string>
 
     <string name="book_title_example">Ex: O Pequeno Príncipe</string>
     <string name="book_pages_example">Ex: 150</string>
     <string name="book_title">Título do livro"</string>
     <string name="book_pages">Número de páginas</string>
-
 
     <string name="save">Salvar</string>
     <string name="newBook">Novo Livro</string>
@@ -17,4 +17,5 @@
     <string name="yes">Yes</string>
     <string name="cancel">No</string>
     <string name="warning_title">Hey, be careful</string>
+
 </resources>
