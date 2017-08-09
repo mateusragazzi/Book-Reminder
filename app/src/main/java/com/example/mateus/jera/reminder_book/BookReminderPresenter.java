@@ -4,13 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.example.mateus.jera.helpers.Book;
 
 import java.util.GregorianCalendar;
 
-import static android.content.ContentValues.TAG;
 import static com.example.mateus.jera.reminder_book.BookReminderContract.Presenter;
 import static com.example.mateus.jera.reminder_book.BookReminderContract.View;
 
@@ -31,9 +29,9 @@ public class BookReminderPresenter implements Presenter {
     }
 
     @Override
-    public void insertReminder(GregorianCalendar now, GregorianCalendar selected) {
+    public void insertReminder(GregorianCalendar now, GregorianCalendar selected, String selectedMode) {
         long difference = (selected.getTimeInMillis() - now.getTimeInMillis());
-        if (difference > 0) {
+        if (isValidInfo(difference, selectedMode)) {
             try {
                 scheduleAlarm(mBook.getId(), difference);
                 updateBookStatus(mBook.getId(), true);
@@ -44,8 +42,31 @@ public class BookReminderPresenter implements Presenter {
                 mView.logError(e);
             }
         } else {
-            mView.showError("Oh no, this date isn't valid!");
+            mView.showError("Oh no, something is wrong in your reminder!");
         }
+    }
+
+    private boolean isValidInfo(long difference, String selectedMode) {
+        return difference > 0 && selectedMode != null;
+    }
+
+    @Override
+    public void alertDialogs(int position) {
+        switch (position) {
+            case 0:
+                mView.showDateAlert();
+                break;
+            case 1:
+                mView.showTimeAlert();
+                break;
+            default:
+                mView.showError("Oh no, we failed");
+        }
+    }
+
+    @Override
+    public void updateTimeElement(int selectedHour, int selectedMinute) {
+
     }
 
     private void updateBookStatus(long bookId, boolean command) {

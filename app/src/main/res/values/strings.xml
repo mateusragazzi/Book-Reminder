@@ -9,13 +9,20 @@
     <string name="book_title">Título do livro"</string>
     <string name="book_pages">Número de páginas</string>
 
-    <string name="save">Salvar</string>
-    <string name="newBook">Novo Livro</string>
-    <string name="pages"> %d páginas</string>
-    <string name="reminder">Lembrete</string>
+    <string name="save">Save</string>
+    <string name="newBook">New Book</string>
+    <string name="pages"> %d pages</string>
+    <string name="reminder">Reminder</string>
     <string name="warning_delete_message">Do you really want delete this book?</string>
     <string name="yes">Yes</string>
     <string name="cancel">No</string>
     <string name="warning_title">Hey, be careful</string>
+    <string name="reminder_once">Only once</string>
+    <string name="reminder_daily">Daily</string>
+    <string-array name="reminder_list_options">
+        <item>Date: %s</item>
+        <item>Time: %s</item>
+    </string-array>
+    <string name="book_reminder_repeat">Repeat:</string>
 
 </resources>

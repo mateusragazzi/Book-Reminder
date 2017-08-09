@@ -10,26 +10,42 @@
     tools:context="com.example.mateus.jera.reminder_book.BookReminderActivity"
     tools:showIn="@layout/activity_book_reminder">
 
-
-    <DatePicker
-        android:id="@+id/book_reminder_date"
-        android:layout_width="368dp"
+    <ListView
+        android:id="@+id/book_reminder_list_options"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:datePickerMode="spinner"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="212dp"/>
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:entries="@array/reminder_list_options"/>
 
-    <TimePicker
-        android:id="@+id/book_reminder_time"
-        android:layout_width="256dp"
+    <TextView
+        android:id="@+id/book_reminder_radio_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/book_reminder_date"
-        android:layout_centerHorizontal="true"
-        android:timePickerMode="spinner"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="0dp"/>
+        android:layout_below="@+id/book_reminder_list_options"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:text="@string/book_reminder_repeat"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/book_reminder_radio_title"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
+        <RadioButton
+            android:id="@+id/book_reminder_once"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/reminder_once"/>
+
+        <RadioButton
+            android:id="@+id/book_reminder_daily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/reminder_daily"/>
+    </RadioGroup>
 </RelativeLayout>

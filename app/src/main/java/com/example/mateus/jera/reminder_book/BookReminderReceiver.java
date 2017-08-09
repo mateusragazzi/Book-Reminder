@@ -36,7 +36,8 @@ public class BookReminderReceiver extends BroadcastReceiver {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(book.getTitle())
-                        .setContentText("Hey, did you read this book today?");
+                        .setContentText("Hey, did you read this book today?")
+                        .setVibrate(new long[]{150, 300, 150, 600});
         Intent resultIntent = new Intent(context, BookListActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(BookListActivity.class);

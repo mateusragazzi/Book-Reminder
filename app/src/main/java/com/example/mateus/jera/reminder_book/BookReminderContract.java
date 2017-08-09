@@ -11,9 +11,13 @@ import java.util.GregorianCalendar;
 public interface BookReminderContract {
 
     interface View extends BaseContract.View {
+        void showDateAlert();
+        void showTimeAlert();
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void insertReminder(GregorianCalendar now, GregorianCalendar selected);
+        void insertReminder(GregorianCalendar now, GregorianCalendar selected, String selectedMode);
+        void alertDialogs(int position);
+        void updateTimeElement(int selectedHour, int selectedMinute);
     }
 }
