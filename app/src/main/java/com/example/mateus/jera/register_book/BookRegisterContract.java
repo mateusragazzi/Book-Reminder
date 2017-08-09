@@ -1,7 +1,6 @@
 package com.example.mateus.jera.register_book;
 
 import com.example.mateus.jera.helpers.BaseContract;
-import com.example.mateus.jera.helpers.Book;
 
 /**
  * Created by mateus on 04/08/17.
@@ -9,11 +8,9 @@ import com.example.mateus.jera.helpers.Book;
 
 public interface BookRegisterContract {
 
-    interface View extends BaseContract.View {
-
-    }
+    interface View extends BaseContract.View {}
 
     interface Presenter extends BaseContract.Presenter {
-        void insertBook(String title, int pages);
+        void insertBook(final String title, final int pages);
     }
 }

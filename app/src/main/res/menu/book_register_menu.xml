@@ -5,6 +5,6 @@
 
     <item
         android:id="@+id/book_reminder_menu_item"
-        android:title="@string/save"
+        android:title="@string/action_save"
         app:showAsAction="always"/>
 </menu>

@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.mateus.jera.helpers.Constants;
+
 /**
  * Created by mateus on 07/08/17.
  */
@@ -16,6 +18,6 @@ public class BookReminderService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i("BookReminderService", "Service running");
+        Log.i(Constants.APPLICATION_TAG, "Service running");
     }
 }

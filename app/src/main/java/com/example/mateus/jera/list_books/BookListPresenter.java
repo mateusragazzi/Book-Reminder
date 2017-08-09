@@ -1,12 +1,9 @@
 package com.example.mateus.jera.list_books;
 
-import android.content.Context;
-import android.content.Intent;
-
+import com.example.mateus.jera.R;
 import com.example.mateus.jera.helpers.Book;
-import com.example.mateus.jera.register_book.BookRegisterActivity;
-import com.example.mateus.jera.reminder_book.BookReminderActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.mateus.jera.list_books.BookListContract.Presenter;
@@ -18,45 +15,46 @@ import static com.example.mateus.jera.list_books.BookListContract.View;
 
 class BookListPresenter implements Presenter {
 
-    private View mView;
+    private final View mView;
 
-    public BookListPresenter(View bookListActivity) {
+    public BookListPresenter(final View bookListActivity) {
         mView = bookListActivity;
     }
 
     @Override
-    public void deleteBook(Book bookClicked) {
+    public ArrayList<Book> findAllBooks() {
+        return (ArrayList<Book>) Book.listAll(Book.class);
+    }
+
+    @Override
+    public void deleteBook(final Book bookClicked, int position) {
         try {
-            long id = getBookID(bookClicked).get(0).getId();
+            long id = getBookId(bookClicked).get(0).getId();
             Book book = Book.findById(Book.class, id);
             book.delete();
-            mView.showSuccess("Yeah, your book has been deleted!");
-            mView.logSuccess();
+            mView.removeItemFromList(book, position);
+            mView.showSuccess(R.string.message_delete_success);
         } catch (Exception e) {
-            mView.logError(e);
-            mView.showError("Oh no, something happened!");
+            mView.showError(R.string.message_error);
         }
     }
 
     @Override
-    public void confirmDelete(Book bookClicked) {
-        mView.showAlert(bookClicked);
+    public void confirmDelete(final Book bookClicked, int position) {
+        mView.showAlert(bookClicked, position);
     }
 
     @Override
-    public void callBookRegister(Context context) {
-        Intent intent = new Intent(context, BookRegisterActivity.class);
-        context.startActivity(intent);
+    public void startRegisterBookScreen() {
+        mView.startBookRegisterActivity();
     }
 
     @Override
-    public void callNewReminder(Context context, Book bookClicked) {
-        Intent intent = new Intent(context, BookReminderActivity.class);
-        intent.putExtra("id", bookClicked.getId());
-        context.startActivity(intent);
+    public void startReminderScreen(final Book book) {
+        mView.startReminderActivity(book);
     }
 
-    public List<Book> getBookID(Book book) {
+    public List<Book> getBookId(final Book book) {
         return Book.find(Book.class, "title = ?", book.getTitle());
     }
 }

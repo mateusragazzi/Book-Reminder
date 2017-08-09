@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
@@ -18,8 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.mateus.jera.R;
+import com.example.mateus.jera.helpers.Constants;
 import com.example.mateus.jera.reminder_book.BookReminderContract.Presenter;
-import com.example.mateus.jera.reminder_book.BookReminderContract.View;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -27,7 +26,7 @@ import java.util.GregorianCalendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookReminderActivity extends AppCompatActivity implements View {
+public class BookReminderActivity extends AppCompatActivity implements BookReminderContract.View {
 
     @BindView(R.id.book_reminder_once)
     RadioButton mBookReminderOnce;
@@ -38,7 +37,6 @@ public class BookReminderActivity extends AppCompatActivity implements View {
     @BindView(R.id.book_reminder_list_options)
     ListView mBookReminderListOptions;
 
-    private static final String TAG = "BookReminderActivity";
     private Presenter mPresenter;
     private long mBookId;
     private GregorianCalendar mCalendarToday;
@@ -48,21 +46,31 @@ public class BookReminderActivity extends AppCompatActivity implements View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_reminder);
         ButterKnife.bind(this);
+        setupToolbar();
+        setupBookItems();
         mPresenter = new BookReminderPresenter(mBookId, getBaseContext(), this);
         mCalendarToday = new GregorianCalendar();
-        setupActivity();
-        setupBookItens();
     }
 
-    private void setupBookItens() {
+    private void setupToolbar() {
+        mToolbar.setTitle(R.string.title_activity_book_reminder);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setupBookItems() {
         Intent intent = getIntent();
-        mBookId = intent.getLongExtra("id", 100);
-        mBookReminderListOptions.setOnItemClickListener(new OnItemClickListener() {
+        mBookId = intent.getLongExtra(Constants.BOOK_ID, 100);
+        mBookReminderListOptions.setOnItemClickListener(clickListOptions());
+    }
+
+    private OnItemClickListener clickListOptions() {
+        return new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
                 mPresenter.alertDialogs(i);
             }
-        });
+        };
     }
 
     @Override
@@ -73,78 +81,6 @@ public class BookReminderActivity extends AppCompatActivity implements View {
         return false;
     }
 
-    @Override
-    public void showDateAlert() {
-        GregorianCalendar today = currentDate();
-        DatePickerDialog DatePickerDialog =
-                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        mCalendarToday.set(Calendar.YEAR, year);
-                        mCalendarToday.set(Calendar.MONTH, month + 1);
-                        mCalendarToday.set(Calendar.DAY_OF_MONTH, day);
-                    }
-                }, today.get(Calendar.YEAR), today.get(Calendar.MONTH) - 1, today.get(Calendar.DAY_OF_MONTH));
-        DatePickerDialog.show();
-    }
-
-    @Override
-    public void showTimeAlert() {
-        GregorianCalendar today = currentDate();
-        TimePickerDialog timePicker =
-                new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        mCalendarToday.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        mCalendarToday.set(Calendar.MINUTE, selectedMinute);
-                    }
-                }, today.get(Calendar.HOUR_OF_DAY), today.get(Calendar.MINUTE), true);
-        timePicker.show();
-    }
-
-    @Override
-    public void logSuccess() {
-        Log.i(TAG, "OK! The reminder has been inserted");
-    }
-
-    @Override
-    public void logError(Exception e) {
-        Log.e(TAG, e.toString());
-    }
-
-    @Override
-    public void showSuccess(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    @Override
-    public void showError(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.book_register_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void setupActivity() {
-        mToolbar.setTitle(R.string.title_activity_book_reminder);
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private String getSelectedMode() {
-        if (mBookReminderOnce.isChecked()) {
-            return "Once";
-        } else if (mBookReminderDaily.isChecked()) {
-            return "Daily";
-        } else {
-            return null;
-        }
-    }
-
     private GregorianCalendar currentDate() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -153,5 +89,74 @@ public class BookReminderActivity extends AppCompatActivity implements View {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int min = calendar.get(Calendar.MINUTE);
         return new GregorianCalendar(year, month, day, hour, min);
+    }
+
+    private String getSelectedMode() {
+        if (mBookReminderOnce.isChecked()) {
+            return Constants.BOOK_INTERVAL_ONCE;
+        } else if (mBookReminderDaily.isChecked()) {
+            return Constants.BOOK_INTERVAL_DAILY;
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public void showDateAlert() {
+        GregorianCalendar today = currentDate();
+        DatePickerDialog datePickerDialog;
+        datePickerDialog = new DatePickerDialog(this, dateSet(), today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH) - 1, today.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener dateSet() {
+        return new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mCalendarToday.set(Calendar.YEAR, year);
+                mCalendarToday.set(Calendar.MONTH, month + 1);
+                mCalendarToday.set(Calendar.DAY_OF_MONTH, day);
+            }
+        };
+    }
+
+    @Override
+    public void showTimeAlert() {
+        GregorianCalendar today = currentDate();
+        TimePickerDialog timePicker = new TimePickerDialog(this, timeSet(),
+                today.get(Calendar.HOUR_OF_DAY), today.get(Calendar.MINUTE), true);
+        timePicker.show();
+    }
+
+    private TimePickerDialog.OnTimeSetListener timeSet() {
+        return new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                mCalendarToday.set(Calendar.HOUR_OF_DAY, selectedHour);
+                mCalendarToday.set(Calendar.MINUTE, selectedMinute);
+            }
+        };
+    }
+
+    @Override
+    public void showSuccess(int msg) {
+        Toast.makeText(this, getMessage(msg), Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private String getMessage(int msg) {
+        return getResources().getString(msg);
+    }
+
+    @Override
+    public void showError(int msg) {
+        Toast.makeText(this, getMessage(msg), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.book_register_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

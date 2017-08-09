@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.mateus.jera.R.string.pages;
+import static com.example.mateus.jera.R.string.book_list_pages;
 
 class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
 
@@ -43,37 +43,45 @@ class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Book book = mDataSet.get(position);
-        final int index = position;
         holder.mBookTitle.setText(book.getTitle());
-        holder.mBookPages.setText(getStringRes(pages, book.getPages()));
-        holder.mBookDelete.setOnClickListener(new View.OnClickListener() {
+        holder.mBookPages.setText(getStringRes(book_list_pages, book.getPages()));
+        holder.mBookDelete.setOnClickListener(getDeleteClickListener(book, position));
+        holder.mBookReminder.setOnClickListener(getReminderClickListener(book));
+        if (book.isReminderEnabled()) holder.mBookReminder.setColorFilter(Color.rgb(37, 140, 0));
+    }
+
+    private View.OnClickListener getDeleteClickListener(final Book book, final int position) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.confirmDelete(getBookClicked(index));
+                mPresenter.confirmDelete(book, position);
             }
-        });
-        holder.mBookReminder.setOnClickListener(new View.OnClickListener() {
+        };
+    }
+
+    private View.OnClickListener getReminderClickListener(final Book book) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.callNewReminder(mContext, getBookClicked(index));
+                mPresenter.startReminderScreen(book);
             }
-        });
-        if (book.isReminderEnabled()) {
-            holder.mBookReminder.setColorFilter(Color.rgb(37, 140, 0));
-        }
+        };
     }
 
     private String getStringRes(int stringRes, Object... formatArgs) {
         return mContext.getResources().getString(stringRes, formatArgs);
     }
 
-    private Book getBookClicked(int position) {
-        return mDataSet.get(position);
-    }
-
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    public void remove(Book book) {
+        int index = mDataSet.indexOf(book);
+        mDataSet.remove(book);
+        notifyItemRemoved(index);
+        notifyItemRangeChanged(index, mDataSet.size());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

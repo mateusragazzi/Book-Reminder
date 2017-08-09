@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:entries="@array/reminder_list_options"/>
+        android:entries="@array/book_reminder_list_options"/>
 
     <TextView
         android:id="@+id/book_reminder_radio_title"
@@ -39,13 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="@string/reminder_once"/>
+            android:text="@string/book_reminder_once"/>
 
         <RadioButton
             android:id="@+id/book_reminder_daily"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:text="@string/reminder_daily"/>
+            android:text="@string/book_reminder_daily"/>
     </RadioGroup>
 </RelativeLayout>

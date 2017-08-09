@@ -18,6 +18,5 @@ public interface BookReminderContract {
     interface Presenter extends BaseContract.Presenter {
         void insertReminder(GregorianCalendar now, GregorianCalendar selected, String selectedMode);
         void alertDialogs(int position);
-        void updateTimeElement(int selectedHour, int selectedMinute);
     }
 }

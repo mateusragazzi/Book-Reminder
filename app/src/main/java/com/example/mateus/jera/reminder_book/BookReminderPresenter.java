@@ -5,7 +5,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.mateus.jera.R;
 import com.example.mateus.jera.helpers.Book;
+import com.example.mateus.jera.helpers.Constants;
 
 import java.util.GregorianCalendar;
 
@@ -28,6 +30,10 @@ public class BookReminderPresenter implements Presenter {
         mBook = getBook(bookId);
     }
 
+    private Book getBook(Long id) {
+        return Book.findById(Book.class, id);
+    }
+
     @Override
     public void insertReminder(GregorianCalendar now, GregorianCalendar selected, String selectedMode) {
         long difference = (selected.getTimeInMillis() - now.getTimeInMillis());
@@ -35,19 +41,33 @@ public class BookReminderPresenter implements Presenter {
             try {
                 scheduleAlarm(mBook.getId(), difference);
                 updateBookStatus(mBook.getId(), true);
-                mView.showSuccess("Yeah, your reminder is active");
-                mView.logSuccess();
+                mView.showSuccess(R.string.message_reminder_success);
             } catch (Exception e) {
-                mView.showError("Oh no, we failed!");
-                mView.logError(e);
+                mView.showError(R.string.message_error);
             }
         } else {
-            mView.showError("Oh no, something is wrong in your reminder!");
+            mView.showError(R.string.message_invalid_reminder);
         }
     }
 
     private boolean isValidInfo(long difference, String selectedMode) {
         return difference > 0 && selectedMode != null;
+    }
+
+    private void updateBookStatus(long bookId, boolean command) {
+        Book book = Book.findById(Book.class, bookId);
+        book.setReminderEnabled(command);
+        book.save();
+    }
+
+    public void scheduleAlarm(long bookId, long time) {
+        Intent intent = new Intent(mContext, BookReminderReceiver.class);
+        intent.putExtra(Constants.REQUEST_CODE_BOOK_REMINDER, bookId);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(mContext, (int) bookId,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long firstMillis = System.currentTimeMillis();
+        AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
     }
 
     @Override
@@ -60,32 +80,7 @@ public class BookReminderPresenter implements Presenter {
                 mView.showTimeAlert();
                 break;
             default:
-                mView.showError("Oh no, we failed");
+                mView.showError(R.string.message_error);
         }
-    }
-
-    @Override
-    public void updateTimeElement(int selectedHour, int selectedMinute) {
-
-    }
-
-    private void updateBookStatus(long bookId, boolean command) {
-        Book book = Book.findById(Book.class, bookId);
-        book.setReminderEnabled(command);
-        book.save();
-    }
-
-    public void scheduleAlarm(long bookId, long time) {
-        Intent intent = new Intent(mContext, BookReminderReceiver.class);
-        intent.putExtra("requestCode", bookId);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(mContext, (int) bookId,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long firstMillis = System.currentTimeMillis();
-        AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
-    }
-
-    private Book getBook(Long id) {
-        return Book.findById(Book.class, id);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mateus.jera.register_book;
 
+import com.example.mateus.jera.R;
 import com.example.mateus.jera.helpers.Book;
 
 import static com.example.mateus.jera.register_book.BookRegisterContract.Presenter;
@@ -18,23 +19,21 @@ class BookRegisterPresenter implements Presenter {
     }
 
     @Override
-    public void insertBook(String title, int pages) {
+    public void insertBook(final String title, final int pages) {
         if (isBookValid(title, pages)) {
             try {
                 Book book = new Book(title, pages);
                 book.save();
-                mView.logSuccess();
-                mView.showSuccess("Yeah, the book has been inserted!");
+                mView.showSuccess(R.string.message_register_book);
             } catch (Exception e) {
-                mView.logError(e);
-                mView.showError("Oh no, we failed!");
+                mView.showError(R.string.message_error);
             }
         } else {
-            mView.showError("Oh no, your book isn't valid!");
+            mView.showError(R.string.message_invalid_book);
         }
     }
 
-    private boolean isBookValid(String title, int pages) {
+    private boolean isBookValid(final String title, final int pages) {
         return title.length() > 2 && pages > 5;
     }
 }
