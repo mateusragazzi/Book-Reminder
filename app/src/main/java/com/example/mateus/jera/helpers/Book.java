@@ -33,7 +33,7 @@ public class Book extends SugarRecord<Book> {
         return reminderEnabled;
     }
 
-    public String getPagesAsString() {
-        return String.valueOf(pages);
+    public void setReminderEnabled(boolean reminderEnabled) {
+        this.reminderEnabled = reminderEnabled;
     }
 }

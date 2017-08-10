@@ -1,6 +1,7 @@
 package com.example.mateus.jera.list_books;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,19 +9,21 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mateus.jera.R;
 import com.example.mateus.jera.helpers.Book;
+import com.example.mateus.jera.helpers.Constants;
 import com.example.mateus.jera.list_books.BookListContract.Presenter;
-
-import java.util.ArrayList;
+import com.example.mateus.jera.register_book.BookRegisterActivity;
+import com.example.mateus.jera.reminder_book.BookReminderActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.support.v7.widget.RecyclerView.LayoutManager;
 
 public class BookListActivity extends AppCompatActivity implements BookListContract.View {
 
@@ -29,8 +32,8 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
     @BindView(R.id.main_list)
     RecyclerView mMainList;
 
-    private static final String TAG = "BookActivityError";
     private Presenter mPresenter;
+    private BookListAdapter mBookListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,56 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
         mPresenter = new BookListPresenter(this);
     }
 
+    private void setupToolbar() {
+        mToolbar.setTitle(R.string.title_activity_book_list);
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupList();
+    }
+
+    private void setupList() {
+        mBookListAdapter = new BookListAdapter(this, mPresenter.findAllBooks(), mPresenter);
+        LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        mMainList.setLayoutManager(layoutManager);
+        mMainList.setItemAnimator(new DefaultItemAnimator());
+        mMainList.setAdapter(mBookListAdapter);
+    }
+
+    @Override
+    public void showAlert(final Book book, int position) {
+        showBookDeleteAlert(book, position);
+    }
+
+    private void showBookDeleteAlert(final Book book, int position) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.message_title);
+        alert.setMessage(R.string.message_confirm_delete);
+        alert.setPositiveButton(R.string.action_yes, getDeleteBookClickListener(book, position));
+        alert.setNegativeButton(R.string.action_no, null);
+        alert.show();
+    }
+
+    private DialogInterface.OnClickListener getDeleteBookClickListener(final Book book, final int position) {
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                mPresenter.deleteBook(book, position);
+            }
+        };
+    }
+
+    @Override
+    public void removeItemFromList(Book book, int position) {
+        if (mBookListAdapter != null) mBookListAdapter.remove(book);
+        setupList();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mPresenter.callBookRegister(this);
+        mPresenter.startRegisterBookScreen();
         return false;
     }
 
@@ -54,67 +104,29 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setupList();
+    public void showError(final int msg) {
+        Toast.makeText(this, getMessage(msg), Toast.LENGTH_SHORT).show();
+    }
+
+    private String getMessage(int msg) {
+        return getResources().getString(msg);
     }
 
     @Override
-    public void showSuccess(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        setupList();
+    public void showSuccess(final int msg) {
+        Toast.makeText(this, getMessage(msg), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showError(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    public void startBookRegisterActivity() {
+        Intent intent = new Intent(this, BookRegisterActivity.class);
+        startActivity(intent);
     }
 
     @Override
-    public void showAlert(Book bookClicked) {
-        AlertDialog.Builder alertDialog = buildAlertDialog(bookClicked);
-        alertDialog.show();
-    }
-
-    @Override
-    public void logSuccess() {
-        Log.i(TAG, "OK, it worked!");
-    }
-
-    @Override
-    public void logError(Exception e) {
-        Log.i(TAG, "No, it failed! " + e);
-    }
-
-    private void setupList() {
-        ArrayList<Book> books = getBooks();
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
-        mMainList.setLayoutManager(layoutManager);
-        mMainList.setItemAnimator(new DefaultItemAnimator());
-        mMainList.setAdapter(new BookListAdapter(this, books, mPresenter));
-    }
-
-    private void setupToolbar() {
-        mToolbar.setTitle(R.string.title_activity_book_list);
-        setSupportActionBar(mToolbar);
-    }
-
-    private AlertDialog.Builder buildAlertDialog(final Book bookClicked) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.warning_title);
-        builder.setMessage(R.string.warning_delete_message);
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                mPresenter.deleteBook(bookClicked);
-            }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        return builder;
-    }
-
-    public ArrayList<Book> getBooks() {
-        return (ArrayList<Book>) Book.listAll(Book.class);
+    public void startReminderActivity(final Book book) {
+        Intent intent = new Intent(this, BookReminderActivity.class);
+        intent.putExtra(Constants.BOOK_ID, book.getId());
+        startActivity(intent);
     }
 }

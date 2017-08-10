@@ -16,7 +16,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/book_title"
+        android:text="@string/book_register_title"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:hint="@string/book_title_example"
+        android:hint="@string/book_register_title_example"
         android:inputType="textCapSentences"/>
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/book_title"
-        android:text="@string/book_pages"
+        android:text="@string/book_register_pages"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:hint="@string/book_pages_example"
+        android:hint="@string/book_register_pages_example"
         android:inputType="number"/>
 
     <Button
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/book_pages"
         android:background="@color/colorPrimaryDark"
-        android:text="@string/save"
+        android:text="@string/action_save"
         android:textColor="@color/white"
         android:textStyle="normal|bold"/>
 </RelativeLayout>

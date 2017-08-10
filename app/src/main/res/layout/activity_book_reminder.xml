@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.example.mateus.jera.reminder_book.BookReminderActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -10,10 +12,11 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
-            android:id="@+id/book_register_toolbar"
+            android:id="@+id/book_reminder_toolbar"
             layout="@layout/toolbar"/>
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_book_register"/>
+    <include layout="@layout/content_book_reminder"/>
 
 </android.support.design.widget.CoordinatorLayout>

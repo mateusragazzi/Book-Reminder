@@ -7,13 +7,9 @@ package com.example.mateus.jera.helpers;
 public interface BaseContract {
 
     interface View {
-        void logSuccess();
-        void logError(Exception e);
-        void showSuccess(String msg);
-        void showError(String msg);
+        void showSuccess(final int msg);
+        void showError(final int msg);
     }
 
-    interface Presenter {
-
-    }
+    interface Presenter {}
 }

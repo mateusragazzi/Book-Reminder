@@ -1,20 +1,38 @@
 <resources>
     <string name="app_name">Jera</string>
-    <string name="title_activity_book">Adicionar Livro</string>
-    <string name="title_activity_book_list">Minha Biblioteca</string>
+    <string name="title_activity_book">Add Book</string>
+    <string name="title_activity_book_list">My Library</string>
+    <string name="title_activity_book_reminder">Add Reminder</string>
 
-    <string name="book_title_example">Ex: O Pequeno Príncipe</string>
-    <string name="book_pages_example">Ex: 150</string>
-    <string name="book_title">Título do livro"</string>
-    <string name="book_pages">Número de páginas</string>
+    <string name="book_register_title_example">Ex: O Pequeno Príncipe</string>
+    <string name="book_register_pages_example">Ex: 150</string>
+    <string name="book_register_title">Título do livro"</string>
+    <string name="book_register_pages">Número de páginas</string>
 
+    <string name="book_list_menu_add_book">New Book</string>
+    <string name="book_list_pages"> %d pages</string>
 
-    <string name="save">Salvar</string>
-    <string name="newBook">Novo Livro</string>
-    <string name="pages"> %d páginas</string>
-    <string name="reminder">Lembrete</string>
-    <string name="warning_delete_message">Do you really want delete this book?</string>
-    <string name="yes">Yes</string>
-    <string name="cancel">No</string>
-    <string name="warning_title">Hey, be careful</string>
+    <string name="book_reminder_once">Only once</string>
+    <string name="book_reminder_daily">Daily</string>
+    <string name="book_reminder_repeat">Repeat:</string>
+    <string name="book_reminder_date_title">Date:</string>
+    <string name="book_reminder_time_title">Time:</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+
+    <string name="message_title">Hey, be careful</string>
+    <string name="message_confirm_delete">Do you really want delete this book?</string>
+    <string name="message_delete_success">Yeah, your book has been deleted!</string>
+    <string name="message_error">Oh no, something happened!</string>
+    <string name="message_register_book">Yeah, the book has been inserted!</string>
+    <string name="message_invalid_book">Oh no, your book isn\'t valid!</string>
+    <string name="message_reminder_success">Yeah, your reminder is active</string>
+    <string name="message_invalid_reminder">Oh no, something is wrong in your reminder!</string>
+    <string name="message_remember_notification">Hey, did you read this book today?</string>
+    <string name="message_select_date">Select your day</string>
+    <string name="message_select_time">Select your time</string>
+    <string name="book_reminder_weekly">Weekly</string>
+    <string name="message_error_schedule_alarm">Oh no, we couldn\'t schedule the alarm!</string>
 </resources>
