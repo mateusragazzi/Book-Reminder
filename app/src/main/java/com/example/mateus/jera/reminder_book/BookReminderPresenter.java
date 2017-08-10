@@ -39,7 +39,7 @@ public class BookReminderPresenter implements Presenter {
         long difference = (selected.getTimeInMillis() - now.getTimeInMillis());
         if (isValidInfo(difference, selectedMode)) {
             try {
-                scheduleAlarm(mBook.getId(), difference);
+                scheduleAlarm(mBook.getId(), difference, selectedMode);
                 updateBookStatus(mBook.getId(), true);
                 mView.showSuccess(R.string.message_reminder_success);
             } catch (Exception e) {
@@ -51,23 +51,34 @@ public class BookReminderPresenter implements Presenter {
     }
 
     private boolean isValidInfo(long difference, String selectedMode) {
-        return difference > 0 && selectedMode != null;
+        return difference > 0 && !selectedMode.equals("");
+    }
+
+    public void scheduleAlarm(long bookId, long time, String selectedMode) {
+        Intent intent = new Intent(mContext, BookReminderReceiver.class);
+        intent.putExtra(Constants.REQUEST_CODE_BOOK_REMINDER, bookId);
+        intent.putExtra(Constants.REQUEST_REMINDER_MODE, selectedMode);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(mContext, (int) bookId,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long firstMillis = System.currentTimeMillis();
+        AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        if (selectedMode.equals(Constants.BOOK_INTERVAL_ONCE)) {
+            alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
+        } else if (selectedMode.equals(Constants.BOOK_INTERVAL_DAILY)) {
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
+                    Constants.INTERVAL_DAILY, pIntent);
+        } else if (selectedMode.equals(Constants.BOOK_INTERVAL_WEEKLY)) {
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
+                    Constants.INTERVAL_WEEKLY, pIntent);
+        } else {
+            mView.showError(R.string.message_error_schedule_alarm);
+        }
     }
 
     private void updateBookStatus(long bookId, boolean command) {
         Book book = Book.findById(Book.class, bookId);
         book.setReminderEnabled(command);
         book.save();
-    }
-
-    public void scheduleAlarm(long bookId, long time) {
-        Intent intent = new Intent(mContext, BookReminderReceiver.class);
-        intent.putExtra(Constants.REQUEST_CODE_BOOK_REMINDER, bookId);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(mContext, (int) bookId,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long firstMillis = System.currentTimeMillis();
-        AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
     }
 
     @Override

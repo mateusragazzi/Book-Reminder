@@ -25,8 +25,11 @@ public class BookReminderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         int id = (int) intent.getLongExtra(Constants.REQUEST_CODE_BOOK_REMINDER, 0);
+        String mode = intent.getStringExtra(Constants.REQUEST_REMINDER_MODE);
         showNotification(context, id);
-        updateBookStatus(id);
+        if (mode.equals(Constants.BOOK_INTERVAL_ONCE)) {
+            updateBookStatus(id);
+        }
     }
 
     private void showNotification(Context context, int id) {

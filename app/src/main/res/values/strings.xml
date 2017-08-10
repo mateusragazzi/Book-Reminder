@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">Jera</string>
     <string name="title_activity_book">Add Book</string>
     <string name="title_activity_book_list">My Library</string>
@@ -16,10 +15,8 @@
     <string name="book_reminder_once">Only once</string>
     <string name="book_reminder_daily">Daily</string>
     <string name="book_reminder_repeat">Repeat:</string>
-    <string-array name="book_reminder_list_options">
-        <item>Date: </item>
-        <item>Time: </item>
-    </string-array>
+    <string name="book_reminder_date_title">Date:</string>
+    <string name="book_reminder_time_title">Time:</string>
 
     <string name="action_save">Save</string>
     <string name="action_yes">Yes</string>
@@ -34,4 +31,8 @@
     <string name="message_reminder_success">Yeah, your reminder is active</string>
     <string name="message_invalid_reminder">Oh no, something is wrong in your reminder!</string>
     <string name="message_remember_notification">Hey, did you read this book today?</string>
+    <string name="message_select_date">Select your day</string>
+    <string name="message_select_time">Select your time</string>
+    <string name="book_reminder_weekly">Weekly</string>
+    <string name="message_error_schedule_alarm">Oh no, we couldn\'t schedule the alarm!</string>
 </resources>

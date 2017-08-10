@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -34,8 +34,16 @@ public class BookReminderActivity extends AppCompatActivity implements BookRemin
     RadioButton mBookReminderDaily;
     @BindView(R.id.book_reminder_toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.book_reminder_list_options)
-    ListView mBookReminderListOptions;
+    @BindView(R.id.book_reminder_option_time)
+    LinearLayout mTimeLinearLayout;
+    @BindView(R.id.book_reminder_option_date)
+    LinearLayout mDateLinearLayout;
+    @BindView(R.id.book_reminder_date)
+    TextView mBookReminderTextDate;
+    @BindView(R.id.book_reminder_time)
+    TextView mBookReminderTextTime;
+    @BindView(R.id.book_reminder_weekly)
+    RadioButton mBookReminderWeekly;
 
     private Presenter mPresenter;
     private long mBookId;
@@ -61,14 +69,17 @@ public class BookReminderActivity extends AppCompatActivity implements BookRemin
     private void setupBookItems() {
         Intent intent = getIntent();
         mBookId = intent.getLongExtra(Constants.BOOK_ID, 100);
-        mBookReminderListOptions.setOnItemClickListener(clickListOptions());
+        mDateLinearLayout.setOnClickListener(openDialog(0));
+        mTimeLinearLayout.setOnClickListener(openDialog(1));
+        mBookReminderTextDate.setText(getMessage(R.string.message_select_date));
+        mBookReminderTextTime.setText(getMessage(R.string.message_select_time));
     }
 
-    private OnItemClickListener clickListOptions() {
-        return new OnItemClickListener() {
+    private View.OnClickListener openDialog(final int position) {
+        return new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                mPresenter.alertDialogs(i);
+            public void onClick(View view) {
+                mPresenter.alertDialogs(position);
             }
         };
     }
@@ -96,6 +107,8 @@ public class BookReminderActivity extends AppCompatActivity implements BookRemin
             return Constants.BOOK_INTERVAL_ONCE;
         } else if (mBookReminderDaily.isChecked()) {
             return Constants.BOOK_INTERVAL_DAILY;
+        } else if (mBookReminderWeekly.isChecked()) {
+            return Constants.BOOK_INTERVAL_WEEKLY;
         } else {
             return "";
         }
@@ -117,8 +130,13 @@ public class BookReminderActivity extends AppCompatActivity implements BookRemin
                 mCalendarToday.set(Calendar.YEAR, year);
                 mCalendarToday.set(Calendar.MONTH, month + 1);
                 mCalendarToday.set(Calendar.DAY_OF_MONTH, day);
+                mBookReminderTextDate.setText(getDateAsString(year, month + 1, day));
             }
         };
+    }
+
+    private String getDateAsString(int year, int i, int day) {
+        return String.valueOf(day) + '/' + String.valueOf(i) + '/' + String.valueOf(year);
     }
 
     @Override
@@ -135,8 +153,13 @@ public class BookReminderActivity extends AppCompatActivity implements BookRemin
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 mCalendarToday.set(Calendar.HOUR_OF_DAY, selectedHour);
                 mCalendarToday.set(Calendar.MINUTE, selectedMinute);
+                mBookReminderTextTime.setText(getTimeAsString(selectedHour, selectedMinute));
             }
         };
+    }
+
+    private String getTimeAsString(int selectedHour, int selectedMinute) {
+        return String.valueOf(selectedHour) + ':' + String.valueOf(selectedMinute);
     }
 
     @Override
