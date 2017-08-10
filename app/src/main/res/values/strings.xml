@@ -35,4 +35,5 @@
     <string name="message_select_time">Select your time</string>
     <string name="book_reminder_weekly">Weekly</string>
     <string name="message_error_schedule_alarm">Oh no, we couldn\'t schedule the alarm!</string>
+    <string name="message_select_image_title">Select an image</string>
 </resources>

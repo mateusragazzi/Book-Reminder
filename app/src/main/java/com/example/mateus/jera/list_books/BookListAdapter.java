@@ -45,6 +45,7 @@ class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHolder> {
         final Book book = mDataSet.get(position);
         holder.mBookTitle.setText(book.getTitle());
         holder.mBookPages.setText(getStringRes(book_list_pages, book.getPages()));
+        holder.mBookImage.setImageBitmap(mPresenter.parsePathToBitmap(book.getImagePath()));
         holder.mBookDelete.setOnClickListener(getDeleteClickListener(book, position));
         holder.mBookReminder.setOnClickListener(getReminderClickListener(book));
         if (book.isReminderEnabled()) holder.mBookReminder.setColorFilter(Color.rgb(37, 140, 0));

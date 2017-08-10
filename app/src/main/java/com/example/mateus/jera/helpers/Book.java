@@ -11,14 +11,16 @@ public class Book extends SugarRecord<Book> {
     private String title;
     private int pages;
     private boolean reminderEnabled;
+    private String imagePath;
 
-    public Book() {
-    }
+    public Book() {}
 
-    public Book(String title, int pages) {
+    public Book(String title, int pages, String image) {
         this.title = title;
         this.pages = pages;
         reminderEnabled = false;
+        imagePath = image;
+
     }
 
     public String getTitle() {
@@ -27,6 +29,10 @@ public class Book extends SugarRecord<Book> {
 
     public int getPages() {
         return pages;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public boolean isReminderEnabled() {

@@ -1,5 +1,9 @@
 package com.example.mateus.jera.list_books;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.example.mateus.jera.R;
 import com.example.mateus.jera.helpers.Book;
 
@@ -56,5 +60,17 @@ class BookListPresenter implements Presenter {
 
     public List<Book> getBookId(final Book book) {
         return Book.find(Book.class, "title = ?", book.getTitle());
+    }
+
+    @Override
+    public Bitmap parsePathToBitmap(String param) {
+        try {
+            byte[] encodeByte = Base64.decode(param, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }
