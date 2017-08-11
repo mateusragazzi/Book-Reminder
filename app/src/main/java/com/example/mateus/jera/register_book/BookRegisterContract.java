@@ -1,5 +1,8 @@
 package com.example.mateus.jera.register_book;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+
 import com.example.mateus.jera.helpers.BaseContract;
 
 /**
@@ -8,9 +11,15 @@ import com.example.mateus.jera.helpers.BaseContract;
 
 public interface BookRegisterContract {
 
-    interface View extends BaseContract.View {}
+    interface View extends BaseContract.View {
+        void showImageSelector();
+        void setBitmapToImageView(Bitmap bitmap);
+        void setImagePath(String imagePath);
+    }
 
     interface Presenter extends BaseContract.Presenter {
-        void insertBook(final String title, final int pages);
+        void insertBook(final String title, final String pages, String imagePath);
+        void callImageSelector();
+        void getFilePath(Intent uri);
     }
 }

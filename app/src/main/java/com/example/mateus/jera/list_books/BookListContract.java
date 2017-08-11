@@ -1,6 +1,6 @@
 package com.example.mateus.jera.list_books;
 
-import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.example.mateus.jera.helpers.BaseContract;
 import com.example.mateus.jera.helpers.Book;
@@ -25,6 +25,7 @@ public interface BookListContract {
         void confirmDelete(final Book bookClicked, int position);
         void startRegisterBookScreen();
         void startReminderScreen(final Book bookClicked);
+        Bitmap parsePathToBitmap(String params);
         ArrayList<Book> findAllBooks();
     }
 }
