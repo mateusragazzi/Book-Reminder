@@ -1,6 +1,5 @@
 package com.example.mateus.jera.register_book;
 
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,7 +32,6 @@ public class BookRegisterActivity extends AppCompatActivity implements View {
     ImageView mBookRegisterImage;
 
     private Presenter mPresenter;
-    private static final int ARQUIVO = 0;
     private String mImagePath = "";
 
     @Override
@@ -55,7 +53,26 @@ public class BookRegisterActivity extends AppCompatActivity implements View {
     public void setBookSave() {
         String title = mBookTitle.getText().toString();
         String numberOfPages = mBookPages.getText().toString();
-        mPresenter.insertBook(title, Integer.parseInt(numberOfPages), mImagePath);
+        mPresenter.insertBook(title, numberOfPages, mImagePath);
+    }
+
+    @Override
+    public void showImageSelector() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            String title = getMessage(message_select_image_title);
+            startActivityForResult(Intent.createChooser(intent, title), 0);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, getMessage(R.string.message_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.getFilePath(data);
     }
 
     @Override
@@ -79,27 +96,12 @@ public class BookRegisterActivity extends AppCompatActivity implements View {
     }
 
     @Override
-    public void showImageSelector() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-            startActivityForResult(Intent.createChooser(intent, getMessage(message_select_image_title)), ARQUIVO);
-        } catch (ActivityNotFoundException ex) {
-            Toast.makeText(this, getMessage(R.string.message_error), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @SuppressLint("NewApi")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.getFilePath(data);
-    }
-
-    @Override
-    public void returnImage(Bitmap bitmap, String imagePath) {
+    public void setBitmapToImageView(Bitmap bitmap) {
         mBookRegisterImage.setImageBitmap(bitmap);
-        mImagePath = imagePath;
+    }
+
+    @Override
+    public void setImagePath(String path) {
+        mImagePath = path;
     }
 }

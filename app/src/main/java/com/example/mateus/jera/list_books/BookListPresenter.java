@@ -66,8 +66,7 @@ class BookListPresenter implements Presenter {
     public Bitmap parsePathToBitmap(String param) {
         try {
             byte[] encodeByte = Base64.decode(param, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         } catch (Exception e) {
             e.getMessage();
             return null;

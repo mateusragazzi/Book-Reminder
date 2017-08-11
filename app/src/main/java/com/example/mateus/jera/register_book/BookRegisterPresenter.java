@@ -3,6 +3,7 @@ package com.example.mateus.jera.register_book;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -30,10 +31,10 @@ class BookRegisterPresenter implements Presenter {
     }
 
     @Override
-    public void insertBook(final String title, final int pages, String imagePath) {
+    public void insertBook(final String title, final String pages, String imagePath) {
         if (isBookValid(title, pages, imagePath)) {
             try {
-                Book book = new Book(title, pages, imagePath);
+                Book book = new Book(title, Integer.valueOf(pages), imagePath);
                 book.save();
                 mView.showSuccess(R.string.message_register_book);
             } catch (Exception e) {
@@ -44,9 +45,8 @@ class BookRegisterPresenter implements Presenter {
         }
     }
 
-    @Override
-    public void callImageSelector() {
-        mView.showImageSelector();
+    private boolean isBookValid(final String title, final String pages, String imagePath) {
+        return title.length() > 2 && pages.length() >= 1 && !imagePath.equals("");
     }
 
     @Override
@@ -54,22 +54,22 @@ class BookRegisterPresenter implements Presenter {
         try {
             Uri uri = intent.getData();
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
-            mView.returnImage(bitmap, getImagePath(bitmap));
+            mView.setBitmapToImageView(bitmap);
+            mView.setImagePath(getImagePath(bitmap));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public String getImagePath(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(CompressFormat.PNG, 100, outputStream);
+        byte[] byteArray = outputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-
-    private boolean isBookValid(final String title, final int pages, String imagePath) {
-        return title.length() > 2 && pages > 5 && !imagePath.equals("");
+    @Override
+    public void callImageSelector() {
+        mView.showImageSelector();
     }
 }

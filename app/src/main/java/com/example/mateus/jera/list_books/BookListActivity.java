@@ -55,6 +55,12 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
         setupList();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setupList();
+    }
+
     private void setupList() {
         mBookListAdapter = new BookListAdapter(this, mPresenter.findAllBooks(), mPresenter);
         LayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -68,6 +74,14 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
         showBookDeleteAlert(book, position);
     }
 
+    private DialogInterface.OnClickListener getDeleteBookClickListener(final Book book, final int position) {
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                mPresenter.deleteBook(book, position);
+            }
+        };
+    }
+
     private void showBookDeleteAlert(final Book book, int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.message_title);
@@ -75,14 +89,6 @@ public class BookListActivity extends AppCompatActivity implements BookListContr
         alert.setPositiveButton(R.string.action_yes, getDeleteBookClickListener(book, position));
         alert.setNegativeButton(R.string.action_no, null);
         alert.show();
-    }
-
-    private DialogInterface.OnClickListener getDeleteBookClickListener(final Book book, final int position) {
-        return new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                mPresenter.deleteBook(book, position);
-            }
-        };
     }
 
     @Override

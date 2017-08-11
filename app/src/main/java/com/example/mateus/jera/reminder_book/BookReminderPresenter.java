@@ -62,16 +62,21 @@ public class BookReminderPresenter implements Presenter {
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         long firstMillis = System.currentTimeMillis();
         AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        if (selectedMode.equals(Constants.BOOK_INTERVAL_ONCE)) {
-            alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
-        } else if (selectedMode.equals(Constants.BOOK_INTERVAL_DAILY)) {
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
-                    Constants.INTERVAL_DAILY, pIntent);
-        } else if (selectedMode.equals(Constants.BOOK_INTERVAL_WEEKLY)) {
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
-                    Constants.INTERVAL_WEEKLY, pIntent);
-        } else {
-            mView.showError(R.string.message_error_schedule_alarm);
+        switch (selectedMode) {
+            case Constants.BOOK_INTERVAL_ONCE:
+                alarm.set(AlarmManager.RTC_WAKEUP, firstMillis + time, pIntent);
+                break;
+            case Constants.BOOK_INTERVAL_DAILY:
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
+                        Constants.INTERVAL_DAILY, pIntent);
+                break;
+            case Constants.BOOK_INTERVAL_WEEKLY:
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis + time,
+                        Constants.INTERVAL_WEEKLY, pIntent);
+                break;
+            default:
+                mView.showError(R.string.message_error_schedule_alarm);
+                break;
         }
     }
 
