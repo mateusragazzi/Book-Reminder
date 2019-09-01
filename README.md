@@ -19,23 +19,23 @@ This project was made for train Android, test some libraries and work with MVP.
 ----
 The first screen is a list of all your books 
 
-![List of books](https://github.com/mateusragazzi/Book-Reminder/images/image-1.png)
+![List of books](https://github.com/mateusragazzi/Book-Reminder/blob/master/images/image-1.png)
 
 You can add a new book by clicking in "New Book" on top of the screen
 
-![New Book form](https://github.com/mateusragazzi/Book-Reminder/images/image-2.png)
+![New Book form](https://github.com/mateusragazzi/Book-Reminder/blob/master/images/image-2.png)
 
 You can setup a new reminder clicking in the clock and filling the form 
 
-![New reminder form](https://github.com/mateusragazzi/Book-Reminder/images/image-4.png)
+![New reminder form](https://github.com/mateusragazzi/Book-Reminder/blob/master/images/image-4.png)
 
 The list will be updated and the clock will appear green
 
-![Reminder activated](https://github.com/mateusragazzi/Book-Reminder/images/image-5.png)
+![Reminder activated](https://github.com/mateusragazzi/Book-Reminder/blob/master/images/image-5.png)
 
 When the time comes, you'll receive a notification in your device
 
-![Notification recieved](https://github.com/mateusragazzi/Book-Reminder/images/image-5.png)
+![Notification recieved](https://github.com/mateusragazzi/Book-Reminder/blob/master/images/image-6.png)
 
 **Apache License 2.0**
 ----
