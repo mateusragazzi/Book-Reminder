@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Jera</string>
+    <string name="app_name">Book Reminder</string>
     <string name="title_activity_book">Add Book</string>
     <string name="title_activity_book_list">My Library</string>
     <string name="title_activity_book_reminder">Add Reminder</string>
 
-    <string name="book_register_title_example">Ex: O Pequeno Príncipe</string>
+    <string name="book_register_title_example">Ex: The Little Prince</string>
     <string name="book_register_pages_example">Ex: 150</string>
-    <string name="book_register_title">Título do livro"</string>
-    <string name="book_register_pages">Número de páginas</string>
+    <string name="book_register_title">Title"</string>
+    <string name="book_register_pages">Number of pages</string>
 
     <string name="book_list_menu_add_book">New Book</string>
     <string name="book_list_pages"> %d pages</string>
@@ -31,8 +31,8 @@
     <string name="message_reminder_success">Yeah, your reminder is active</string>
     <string name="message_invalid_reminder">Oh no, something is wrong in your reminder!</string>
     <string name="message_remember_notification">Hey, did you read this book today?</string>
-    <string name="message_select_date">Select your day</string>
-    <string name="message_select_time">Select your time</string>
+    <string name="message_select_date">Select the date</string>
+    <string name="message_select_time">Select the time</string>
     <string name="book_reminder_weekly">Weekly</string>
     <string name="message_error_schedule_alarm">Oh no, we couldn\'t schedule the alarm!</string>
     <string name="message_select_image_title">Select an image</string>
