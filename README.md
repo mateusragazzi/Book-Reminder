@@ -15,7 +15,29 @@ This project was made for train Android, test some libraries and work with MVP.
 | [Sugar DB](http://satyan.github.io/sugar/)  | Simple library to work with Android Databases    |
 | [Date Time Picker](https://github.com/flavienlaurent/datetimepicker)  | Library which contains the beautiful DatePicker and TimePicker. |
 
-**Licença Apache 2.0**
+**How to use**
+----
+The first screen is a list of all your books 
+
+![List of books](https://github.com/mateusragazzi/Book-Reminder/images/image-1.png)
+
+You can add a new book by clicking in "New Book" on top of the screen
+
+![New Book form](https://github.com/mateusragazzi/Book-Reminder/images/image-2.png)
+
+You can setup a new reminder clicking in the clock and filling the form 
+
+![New reminder form](https://github.com/mateusragazzi/Book-Reminder/images/image-4.png)
+
+The list will be updated and the clock will appear green
+
+![Reminder activated](https://github.com/mateusragazzi/Book-Reminder/images/image-5.png)
+
+When the time comes, you'll receive a notification in your device
+
+![Notification recieved](https://github.com/mateusragazzi/Book-Reminder/images/image-5.png)
+
+**Apache License 2.0**
 ----
 
 ```
